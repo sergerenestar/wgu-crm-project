@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://backend:8080
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILE=dev
+      - DB_URL=jdbc:postgresql://db:5432/mjcrm
+      - DB_USER=mjcrm
+      - DB_PASSWORD=mjcrm
+      - JWT_SECRET=local-dev-secret
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=mjcrm
+      - POSTGRES_USER=mjcrm
+      - POSTGRES_PASSWORD=mjcrm
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: mj-logistics-crm
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/mjcrm}
+    username: ${DB_USER:mjcrm}
+    password: ${DB_PASSWORD:mjcrm}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+jwt:
+  secret: ${JWT_SECRET:changeme}
+  expiration: 86400000
